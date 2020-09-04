@@ -1,0 +1,15 @@
+.profile-page-container {
+  margin-top: 20px !important;
+}
+
+.profile-avatar {
+  width: 200px;
+  height: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.text-name {
+  margin-top: 20px;
+}
