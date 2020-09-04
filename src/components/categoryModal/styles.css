@@ -2,3 +2,7 @@
   margin-top: 40px !important;
 }
 
+.list-item-remove {
+  cursor: pointer;
+  color: var(--primary-bg);
+}

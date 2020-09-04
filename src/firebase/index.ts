@@ -1,4 +1,6 @@
 import firebase from "firebase";
+import "firebase/firestore";
+import "firebase/storage";
 
 import {
   apiKey,
@@ -18,6 +20,10 @@ const firebaseConfig = {
   storageBucket,
   messagingSenderId,
   appId,
+};
+
+export const storage = {
+  food: "images/foods",
 };
 
 // Initialize Firebase

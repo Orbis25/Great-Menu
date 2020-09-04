@@ -1,3 +1,7 @@
+:root {
+  --primary-bg: #f14668;
+}
+
 body {
   font-family: "Lato", sans-serif;
   background: #ebebeb !important;
@@ -11,7 +15,7 @@ body {
 /*============== theme!======= */
 
 .primary {
-  background: #f14668 !important;
+  background: var(--primary-bg) !important;
 }
 
 .acent {
