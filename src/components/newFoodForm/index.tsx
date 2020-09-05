@@ -11,7 +11,7 @@ import Alert from "react-bootstrap/esm/Alert";
 import FoodService from "../../services/foodService";
 import Spinner from "react-bootstrap/esm/Spinner";
 import { showSimpleAlert } from "../../utils/alerts";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { MENU } from "../../router/routes";
 
 const NewFoodForm = () => {
@@ -22,6 +22,14 @@ const NewFoodForm = () => {
   >(IsReadyFormSubmitEnum.Success);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [initialValues, setInitialValues] = useState<Food>({
+    price: 1,
+    category: "",
+    name: "",
+    description: "",
+    photoUrl: "",
+    State: FoodState.Active,
+  });
 
   //state upload image
   const [isImageUpload, setImageIsImageUpload] = useState<boolean>(false);
@@ -33,19 +41,25 @@ const NewFoodForm = () => {
 
   //navigation
   const history = useHistory();
-
-  const initialValues: Food = {
-    price: 1,
-    category: "",
-    name: "",
-    description: "",
-    photoUrl: "",
-    State: FoodState.Active,
-  };
+  const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
     (async () => await getCategories())();
-  }, []);
+    if (!!id) {
+      (async () => await getById(id))();
+    }
+    // eslint-disable-next-line
+  }, [id]);
+
+  const getById = async (id: string) => {
+    try {
+      const result = await new FoodService().getById(id);
+      const food = result.docs[0].data() as Food;
+      setInitialValues(food);
+    } catch (error) {
+      setIsReadyForSubmit(IsReadyFormSubmitEnum.NetWorkError);
+    }
+  };
 
   const getCategories = async () => {
     try {
@@ -64,7 +78,7 @@ const NewFoodForm = () => {
     }
   };
 
-  const handleSubmit = async (model: Food) => {
+  const handleCreate = async (model: Food) => {
     if (isImageUpload) {
       setIsLoading(true);
       try {
@@ -73,6 +87,29 @@ const NewFoodForm = () => {
         setErrorMessage("");
         setIsReadyForSubmit(IsReadyFormSubmitEnum.Success);
         showSimpleAlert("Agregado correctamente", "success");
+        history.push(MENU);
+      } catch (error) {
+        setErrorMessage(error.message);
+        setIsReadyForSubmit(IsReadyFormSubmitEnum.Error);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      setErrorImageUpload("Imagen requerida");
+    }
+  };
+
+  const handleUpdate = async (model: Food) => {
+    if (model.photoUrl.length || photoUrl) {
+      setIsLoading(true);
+      try {
+        if (photoUrl.length) {
+          model.photoUrl = photoUrl;
+        }
+        await new FoodService().update(model);
+        setErrorMessage("");
+        setIsReadyForSubmit(IsReadyFormSubmitEnum.Success);
+        showSimpleAlert("actualizado correctamente", "success");
         history.push(MENU);
       } catch (error) {
         setErrorMessage(error.message);
@@ -144,7 +181,7 @@ const NewFoodForm = () => {
       default:
         return (
           <Button type="submit" className="btn acent" size="sm" block>
-            Agregar
+            {!!id ? "Actualizar" : "Agregar"}
           </Button>
         );
     }
@@ -155,7 +192,8 @@ const NewFoodForm = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={validationScheme}
-        onSubmit={handleSubmit}
+        onSubmit={!!id ? handleUpdate : handleCreate}
+        enableReinitialize
       >
         {({ errors, values, handleSubmit, handleChange, handleBlur }) => (
           <form onSubmit={handleSubmit}>

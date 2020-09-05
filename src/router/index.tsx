@@ -10,6 +10,7 @@ import {
   ORDERS,
   PROFILE,
   NEW_FOOD,
+  Edit_FOOD,
 } from "./routes";
 
 //context
@@ -53,6 +54,7 @@ const Router = () => {
             <ProtectedRoute path={ORDERS} component={OrdersPage} />
             <ProtectedRoute path={MENU} component={MenuPage} />
             <ProtectedRoute path={NEW_FOOD} component={NewFoodPage} />
+            <ProtectedRoute path={`${Edit_FOOD}/:id`} component={NewFoodPage} />
             <ProtectedRoute path={`${PROFILE}/:id`} component={ProfilePage} />
             <Route path="*" component={NotFoundPage} />
           </Switch>

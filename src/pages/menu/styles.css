@@ -1,3 +1,24 @@
 .menu-page-container {
   margin-top: 30px;
 }
+
+.menu-page-item-container {
+  margin-top: 20px;
+}
+
+.menu-page-loading {
+  width: 150px !important;
+  height: 150px !important;
+  margin-top: 100px;
+}
+
+.to-capitalize {
+  text-transform: capitalize;
+}
+
+.card-elevation-menu-item:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0px 18px 34px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 18px 34px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 18px 34px 0px rgba(0, 0, 0, 0.75);
+}
