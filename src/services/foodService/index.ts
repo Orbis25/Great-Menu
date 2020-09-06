@@ -1,5 +1,5 @@
 import { initialize, storage } from "../../firebase";
-import { Food } from "../../models/Food";
+import { Food, FoodState } from "../../models/Food";
 import collections from "../../firebase/colections";
 import { generateId, getDateTimeNowStr } from "../../utils";
 import { FireSQL } from "firesql";
@@ -38,6 +38,17 @@ export default class FoodService {
       .update(model);
   }
 
+  async remove(id: string): Promise<void> {
+    const result = await this.db
+      .collection(collections.foods)
+      .where("id", "==", id)
+      .get();
+
+    const fireId = result.docs[0].id;
+
+    return await this.db.collection(collections.foods).doc(fireId).delete();
+  }
+
   uploadPhoto = async (
     file: Blob | Uint8Array | ArrayBuffer | any
   ): Promise<any> => {
@@ -62,4 +73,21 @@ export default class FoodService {
       .where("id", "==", id)
       .get();
   };
+
+  async changeStatus(id: string, state: FoodState): Promise<void> {
+    const result = await this.db
+      .collection(collections.foods)
+      .where("id", "==", id)
+      .get();
+
+    const fireId = result.docs[0].id;
+    const model = result.docs[0].data() as Food;
+    model.State = state;
+    model.updatedAt = getDateTimeNowStr();
+
+    return await this.db
+      .collection(collections.foods)
+      .doc(fireId)
+      .update(model);
+  }
 }

@@ -56,7 +56,8 @@ const MenuPage = () => {
   };
 
   const renderItems = () => {
-    if (items.length < 1 && !isLoading) return <h1>No hay platos para mostrar</h1>;
+    if (items.length < 1 && !isLoading)
+      return <h1>No hay platos para mostrar</h1>;
     return items.map((value) => <MenuItem key={value.id} food={value} />);
   };
 
