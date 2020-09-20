@@ -36,9 +36,19 @@ const AuthForm = () => {
         const result = await new AuthService().login({ userName, password });
         if (result?.user !== null) {
           const usr = result?.user as unknown;
-          context.setState({ user: usr as CurrentUser, isAutenticated: true });
-          localStorage.setItem("auth", "true");
-          history.push(MENU);
+          const claimsContainer = await new AuthService().getClaims();
+          if (!!claimsContainer) {
+            if (claimsContainer.claims.App === undefined) {
+              context.setState({
+                user: usr as CurrentUser,
+                isAutenticated: true,
+              });
+              localStorage.setItem("auth", "true");
+              history.push(MENU);
+            } else {
+              setErrorMessage("No autorizado");
+            }
+          }
         }
       } catch (error) {
         setErrorMessage(error.message);

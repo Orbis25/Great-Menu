@@ -29,8 +29,8 @@ const MenuPage = () => {
     setIsLoading(true);
     setErrorMessage("");
     try {
-      setItems([]);
       (await new FoodService().getAll()).onSnapshot((response) => {
+        setItems([]);
         response.forEach((result) => {
           setItems((x) => [...x, result.data() as Food]);
         });

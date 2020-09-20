@@ -2,6 +2,7 @@ import { initialize } from "../../firebase/index";
 import { UserAuthVm } from "../../models/User";
 
 export default class AuthService {
+
   async login(model: UserAuthVm): Promise<firebase.auth.UserCredential> {
     return await initialize
       .auth()
@@ -15,5 +16,9 @@ export default class AuthService {
 
   async updateProfileName(displayName: string): Promise<void> {
     return await initialize.auth().currentUser?.updateProfile({ displayName });
+  }
+
+  async getClaims(): Promise<firebase.auth.IdTokenResult | undefined> {
+    return await initialize.auth().currentUser?.getIdTokenResult();
   }
 }

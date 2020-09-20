@@ -82,7 +82,7 @@ export default class FoodService {
 
     const fireId = result.docs[0].id;
     const model = result.docs[0].data() as Food;
-    model.State = state;
+    model.State = Number(state);
     model.updatedAt = getDateTimeNowStr();
 
     return await this.db
