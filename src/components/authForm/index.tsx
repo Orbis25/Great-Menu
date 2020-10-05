@@ -12,7 +12,7 @@ import { Link, useHistory } from "react-router-dom";
 import { MENU } from "../../router/routes";
 import AuthService from "../../services/authService";
 import { AuthContext, ContextType } from "../../store/context/AuthContext";
-import { CurrentUser } from "../../models/User";
+import { AuthLevel, CurrentUser, User } from "../../models/User";
 
 const AuthForm = () => {
   //context
@@ -33,21 +33,22 @@ const AuthForm = () => {
     setIsLoading(true);
     if (userName.length && password.length) {
       try {
-        const result = await new AuthService().login({ userName, password });
+        const service = new AuthService();
+        const result = await service.login({ userName, password });
         if (result?.user !== null) {
-          const usr = result?.user as unknown;
-          const claimsContainer = await new AuthService().getClaims();
-          if (!!claimsContainer) {
-            if (claimsContainer.claims.App === undefined) {
-              context.setState({
-                user: usr as CurrentUser,
-                isAutenticated: true,
-              });
-              localStorage.setItem("auth", "true");
-              history.push(MENU);
-            } else {
-              setErrorMessage("No autorizado");
-            }
+          const usr = result?.user;
+
+          const response = await service.getUserByUid(usr.uid);
+          const userModel = response.docs[0].data() as User;
+          if (userModel.rol === AuthLevel.Admin) {
+            context.setState({
+              user: (usr as unknown) as CurrentUser,
+              isAutenticated: true,
+            });
+            localStorage.setItem("auth", "true");
+            history.push(MENU);
+          } else {
+            setErrorMessage("No autorizado");
           }
         }
       } catch (error) {
