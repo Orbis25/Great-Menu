@@ -59,7 +59,7 @@ const MenuItem: React.FC<Props> = ({ food }) => {
         <Card.Body>
           <Row>
             <Col xs={12} sm={12} md={3} xl={3} lg={3}>
-              <Image width={200} src={photoUrl} rounded alt={name} />
+              <Image width={200} height={200}  src={photoUrl} rounded alt={name} />
             </Col>
             <Col xs={12} sm={12} md={9} xl={9} lg={9}>
               <h1 className="to-capitalize">{name}</h1>

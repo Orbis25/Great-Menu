@@ -26,4 +26,9 @@ export default class CategoryService {
     const fireId = result.docs[0].id;
     return await this.db.collection(collections.category).doc(fireId).delete();
   }
+
+  async notExist(name:string):Promise<boolean>{
+    const response = await this.db.collection(collections.category).where("name","==",name).get();
+    return response.empty;
+  }
 }

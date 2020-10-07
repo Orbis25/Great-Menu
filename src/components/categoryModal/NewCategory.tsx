@@ -35,19 +35,25 @@ const NewCategory = () => {
   ) => {
     setIsLoading(true);
     setShowAlert(false);
-
+    const service = new CategoryService();
     try {
-      await new CategoryService().add(model);
-      setErrorMessage("");
-      resetForm({});
-      setShowAlert(true);
+      if (await service.notExist(model.name)) {
+        await service.add(model);
+        setErrorMessage("");
+        resetForm({});
+        setShowAlert(true);
+      } else {
+        setErrorMessage(`ya existe una categoria con el nombre ${model.name}`);
+      }
     } catch (error) {
       setErrorMessage(error.message);
     } finally {
       setIsLoading(false);
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      if (errorMessage === "") {
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
     }
   };
 
@@ -62,7 +68,9 @@ const NewCategory = () => {
           {showAlert && (
             <Alert variant="success" onClose={handleCloseAlert} dismissible>
               <Spinner animation="border" size="sm" />
-              <span className="ml-2">Agreado correctamente! espere un momento...</span>
+              <span className="ml-2">
+                Agreado correctamente! espere un momento...
+              </span>
             </Alert>
           )}
           <Formik

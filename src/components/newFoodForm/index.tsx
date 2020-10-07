@@ -274,7 +274,11 @@ const NewFoodForm = () => {
                 name="description"
                 as="textarea"
                 rows={4}
+                isInvalid={!!errors.description}
               />
+              <Form.Control.Feedback type="invalid">
+                <b>{errors.description}</b>
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group>
               {isLoading ? (
