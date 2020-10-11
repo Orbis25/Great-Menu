@@ -62,6 +62,12 @@ const AuthForm = () => {
     }
   };
 
+  const handleKeyInput = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      await handleSubmit();
+    }
+  };
+
   return (
     <Container>
       <Row>
@@ -90,6 +96,7 @@ const AuthForm = () => {
             <Form.Control
               onChange={(e) => setPassword(e.target.value)}
               value={password}
+              onKeyDown={handleKeyInput}
               type="password"
               placeholder="******"
             />

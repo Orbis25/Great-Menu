@@ -43,10 +43,19 @@ const OrdersPage = () => {
     ));
   };
 
+  if (!orders.length) {
+    return (
+      <Col xs={12} className="order-page-title">
+        <h1>No hay ordenes en este momento</h1>
+        <img height={400} src="images/orderPage/no_orders.svg" alt="no-orders-img" />
+      </Col>
+    );
+  }
+
   return (
     <Row className="animate__animated animate__fadeInUp">
       <Col xs={12} className="order-page-title">
-        <h1>Ordenes page</h1>
+        <h1>Ordenes</h1>
       </Col>
       {renderOrders()}
     </Row>
