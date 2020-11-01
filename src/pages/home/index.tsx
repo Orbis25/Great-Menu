@@ -24,7 +24,7 @@ const HomePage = () => {
               </p>
               <p className="animate__animated animate__fadeInDown animate__delay-1s">
                 <a
-                  href="https://github.com/Orbis25/great-menu-mobileApp/releases/download/v1.0/app-release.apk"
+                  href="https://github.com/Orbis25/great-menu-mobileApp/releases/download/v1.1.2/great-menu-v1.1.2.apk"
                   download
                   className="primary btn text-white btn-hero"
                 >
@@ -96,7 +96,7 @@ const HomePage = () => {
           ></path>
         </svg>
       </Col>
-      <Col style={{background:"#1D2E4A"}} className="" xs={12}>
+      {/* <Col style={{background:"#1D2E4A"}} className="" xs={12}>
         <img
           src="https://avatars3.githubusercontent.com/u/38229144?s=460&u=32f2de3761114b346afcfbcb090ed1b82c4690ae&v=4"
           alt="profile-creator"
@@ -116,7 +116,7 @@ const HomePage = () => {
             Developed by Orbis Alonzo Gutierrez
           </a>
         </h3>
-      </Col>
+      </Col> */}
     </Row>
   );
 };
